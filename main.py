@@ -1,4 +1,5 @@
 import os
+import argparse
 from google import genai
 from dotenv import load_dotenv
 
@@ -6,8 +7,14 @@ load_dotenv()
 api_key = os.environ.get("GEMINI_API_KEY")
 client = genai.Client(api_key=api_key)
 
+#using argparse
+parser = argparse.ArgumentParser(description="AI ChatBot")
+parser.add_argument("user_prompt", type=str, help="User prompt")
+args = parser.parse_args()
+# Now we can access `args.user_prompt`
+
 #Spliting things up for easy coding:
-prompt = "Why is Boot.dev such a great place to learn backend development? Use one paragraph maximum."
+prompt = args.user_prompt
 
 response = client.models.generate_content(
     model='gemini-2.5-flash',
