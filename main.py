@@ -11,6 +11,7 @@ client = genai.Client(api_key=api_key)
 #using argparse
 parser = argparse.ArgumentParser(description="AI ChatBot")
 parser.add_argument("user_prompt", type=str, help="User prompt")
+parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
 args = parser.parse_args() # Now we can access `args.user_prompt`
 
 #Spliting things up for easy coding:
@@ -35,10 +36,11 @@ question_token_count = response.usage_metadata.prompt_token_count
 response_from_AI = response.text
 
 
+if args.verbose:
+    print(f"User prompt: {prompt}")
+    print(f"Prompt tokens: {question_token_count}")
+    print(f"Response tokens: {response_token_count}")
 
-
-print(f"User prompt: {prompt}")
-print(f"Prompt tokens: {question_token_count}")
-print(f"Response tokens: {response_token_count}")
 print(f"Response:")
 print(response_from_AI)
+
