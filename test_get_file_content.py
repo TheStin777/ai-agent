@@ -9,7 +9,7 @@ print("Result for the  'main.py' file:")
 print(f"{get_file_content("calculator", "main.py")}")
 
 #Test 3: pkg/calculator.py
-print("Result for the'calculator.py' file:")
+print("Result for the 'calculator.py' file:")
 print(f"{get_file_content("calculator", "pkg/calculator.py")}")
 
 #Test 4: /bin/cat
