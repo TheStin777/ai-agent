@@ -8,6 +8,7 @@ from functions.get_files_info import schema_get_files_info
 from functions.run_python_file import schema_run_python_file
 from functions.get_file_content import schema_get_file_content
 from functions.write_file import schema_write_file
+from call_function import call_function
 
 load_dotenv()
 api_key = os.environ.get("GEMINI_API_KEY")
@@ -45,9 +46,29 @@ if response.usage_metadata == None:
 
 
 # Checking if the function call the AI is requesting is available.
-if response.function_calls:
+final_function_call_results = []
+if response.function_calls:    
     for call in response.function_calls:
-        print(f"Calling function: {call.name}({call.args})") 
+        function_call_result = call_function(call)
+        if not function_call_result.parts:
+            raise Exception ("function call is empty")
+
+        if function_call_result.parts[0].function_response is None:
+            raise Exception("Not a valid responce")
+            
+        
+        if function_call_result.parts[0].function_response.response is None:
+            raise Exception("Not a valid responce")
+        
+        final_function_call_results.append(function_call_result.parts[0])
+
+        if args.verbose:
+            print(f"-> {function_call_result.parts[0].function_response.response}")
+        
+        
+
+
+
 
 else:
     #Labeling data for ease of use
